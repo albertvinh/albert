@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Albert Nguyen</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ══════════════════════════════════
+   DARK MODE (default / Y2K cyber)
+══════════════════════════════════ */
+:root,
+[data-theme="dark"] {
+  --bg:        #0a0e1a;
+  --bg2:       #0e1828;
+  --bg3:       #111e36;
+  --text:      #f0f4f8;
+  --text2:     #b4cfe2;
+  --text3:     #8aaec8;
+  --ice:       #d6e8f4;
+  --ghost:     rgba(180,207,226,0.10);
+  --line:      rgba(180,207,226,0.18);
+  --accent:    #7ec8e3;
+  --accent2:   #c3b1e1;
+  --stat-bg:   linear-gradient(90deg,#0b121f,#0e1828,#0b121f);
+  --stat-num:  #d6e8f4;
+  --hero-bg:
+    radial-gradient(ellipse at 60% 40%, rgba(100,160,210,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 80%, rgba(195,177,225,0.15) 0%, transparent 45%),
+    linear-gradient(160deg, #1a2d45 0%, #0f1c30 40%, #080d18 100%);
+  --footer-bg:
+    radial-gradient(ellipse at 30% 60%, rgba(195,177,225,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(100,160,210,0.14) 0%, transparent 50%),
+    linear-gradient(160deg, #1a2d45 0%, #0f1c30 50%, #080d18 100%);
+  --nav-scrolled: rgba(10,14,26,0.88);
+  --grid-line:  rgba(140,185,220,0.06);
+  --hero-orb:   radial-gradient(circle,rgba(140,185,220,0.18) 0%,rgba(195,177,225,0.08) 30%,transparent 65%);
+  --ring1:      rgba(140,185,220,0.10);
+  --ring2:      rgba(195,177,225,0.12);
+  --ring3:      rgba(140,185,220,0.14);
+  --scanline:   rgba(0,0,0,0.04);
+  --sec-odd:    rgba(255,255,255,0.015);
+  --card-bg:    rgba(180,207,226,0.07);
+  --tag-hover-bg: rgba(195,177,225,0.12);
+  --tag-hover-border: rgba(195,177,225,0.4);
+  --tag-hover-color: var(--accent2);
+  --toggle-bg:  rgba(180,207,226,0.12);
+  --toggle-border: rgba(180,207,226,0.25);
+  --toggle-color: #d6e8f4;
+}
+
+/* ══════════════════════════════════
+   LIGHT MODE (blue gradient / business card)
+══════════════════════════════════ */
+[data-theme="light"] {
+  --bg:        #f4f8fb;
+  --bg2:       #ffffff;
+  --bg3:       #e8f1f8;
+  --text:      #1a2a38;
+  --text2:     #4a6070;
+  --text3:     #5a7a90;
+  --ice:       #1a2a38;
+  --ghost:     rgba(74,127,165,0.07);
+  --line:      rgba(74,127,165,0.18);
+  --accent:    #4A7FA5;
+  --accent2:   #7b68b5;
+  --stat-bg:   linear-gradient(90deg,#1C3A52,#243f5a,#1C3A52);
+  --stat-num:  #ffffff;
+  --hero-bg:
+    radial-gradient(ellipse at 70% 20%, rgba(255,255,255,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 10% 80%, rgba(28,58,82,0.15) 0%, transparent 50%),
+    linear-gradient(135deg, #7FA8C9 0%, #9BBDD6 30%, #B8CCE0 60%, #C8D9E8 100%);
+  --footer-bg:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.15) 0%, transparent 60%),
+    linear-gradient(135deg, #7FA8C9 0%, #9BBDD6 40%, #B8CCE0 100%);
+  --nav-scrolled: rgba(244,248,251,0.92);
+  --grid-line:  rgba(74,127,165,0.07);
+  --hero-orb:   radial-gradient(circle,rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.05) 40%,transparent 65%);
+  --ring1:      rgba(255,255,255,0.2);
+  --ring2:      rgba(255,255,255,0.15);
+  --ring3:      rgba(255,255,255,0.25);
+  --scanline:   rgba(0,0,0,0.015);
+  --sec-odd:    rgba(74,127,165,0.03);
+  --card-bg:    #ffffff;
+  --tag-hover-bg: #4A7FA5;
+  --tag-hover-border: #4A7FA5;
+  --tag-hover-color: #ffffff;
+  --toggle-bg:  rgba(255,255,255,0.25);
+  --toggle-border: rgba(255,255,255,0.5);
+  --toggle-color: #1a2a38;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    var(--scanline) 2px,
+    var(--scanline) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 14px 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.4s ease;
+}
+
+nav.scrolled {
+  background: var(--nav-scrolled);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ice);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.4s;
+}
+
+[data-theme="light"] .nav-logo { color: #ffffff; }
+[data-theme="light"] nav.scrolled .nav-logo { color: var(--text); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-links { display: flex; gap: 32px; }
+.nav-links a {
+  text-decoration: none;
+  color: var(--text3);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+[data-theme="light"] nav:not(.scrolled) .nav-links a { color: rgba(255,255,255,0.85); }
+[data-theme="light"] nav:not(.scrolled) .nav-links a:hover { color: #ffffff; }
+.nav-links a:hover { color: var(--accent); }
+
+/* ── THEME TOGGLE BUTTON ── */
+#theme-btn {
+  background: var(--toggle-bg);
+  border: 1px solid var(--toggle-border);
+  color: var(--toggle-color);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  backdrop-filter: blur(4px);
+  line-height: 1;
+  padding: 0;
+}
+[data-theme="light"] nav:not(.scrolled) #theme-btn {
+  color: #1a2a38;
+  border-color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.3);
+}
+#theme-btn:hover {
+  transform: scale(1.1) rotate(20deg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── HERO ── */
+header {
+  height: calc(100vh - 72px);
+  min-height: 400px;
+  background: var(--hero-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 56px 44px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s ease;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transition: background-image 0.4s;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 480px; height: 480px;
+  background: var(--hero-orb);
+  pointer-events: none;
+  transition: background 0.4s;
+}
+
+.hero-inner { position: relative; z-index: 2; }
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: border-color 0.4s;
+}
+.ring-1 { width: 320px; height: 320px; top: -60px; right: 120px; border: 1px solid var(--ring1); }
+.ring-2 { width: 180px; height: 180px; top: 20px; right: 220px; border: 1px solid var(--ring2); }
+.ring-3 { width: 80px; height: 80px; top: 70px; right: 290px; border: 1px solid var(--ring3); }
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(44px, 6.5vw, 78px);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.0;
+  letter-spacing: -2px;
+  margin-bottom: 10px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.15s forwards;
+}
+
+h1 span { position: relative; }
+h1 span::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -3px;
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), transparent);
+  transition: background 0.4s;
+}
+
+.hero-sub {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.28s forwards;
+}
+.hero-sub span { color: rgba(255,255,255,0.5); margin: 0 8px; }
+
+.hero-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.42s forwards;
+}
+
+.hero-contact a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(4px);
+  transition: all 0.2s;
+}
+.hero-contact a:hover {
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.18);
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  background: var(--stat-bg);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 72px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.58s forwards;
+  transition: background 0.4s, border-color 0.4s;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 40px;
+  border-right: 1px solid var(--line);
+  transition: border-color 0.4s;
+}
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--stat-num);
+  letter-spacing: -1px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: color 0.4s;
+}
+
+.stat-desc {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text3);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  line-height: 1.4;
+  transition: color 0.4s;
+}
+[data-theme="light"] .stat-desc { color: rgba(180,207,226,0.85); }
+
+/* ── SECTIONS ── */
+section {
+  padding: 80px 56px;
+  border-bottom: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease, background 0.4s, border-color 0.4s;
+}
+section.visible { opacity: 1; transform: none; }
+section:nth-child(odd) { background: var(--sec-odd); }
+
+.sec-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.4s;
+}
+.sec-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 20px; height: 1px;
+  background: var(--accent);
+  transition: background 0.4s;
+}
+
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 48px;
+  line-height: 1.05;
+  transition: color 0.4s;
+}
+
+/* ── JOBS ── */
+.job {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  margin-bottom: 52px;
+  padding-bottom: 52px;
+  border-bottom: 1px solid var(--line);
+  transition: border-color 0.4s;
+}
+.job:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+.job-meta {
+  padding-right: 32px;
+  padding-top: 3px;
+  border-right: 1px solid var(--line);
+  margin-right: 36px;
+  transition: border-color 0.4s;
+}
+
+.company {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+  transition: color 0.4s;
+}
+
+.location {
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  transition: color 0.4s;
+}
+
+.date-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid;
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  transition: all 0.4s;
+}
+
+.job-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 16px;
+  color: var(--text);
+  line-height: 1.2;
+  transition: color 0.4s;
+}
+
+.job-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+.job-bullets li {
+  font-size: 13.5px;
+  padding-left: 18px;
+  position: relative;
+  color: var(--text2);
+  line-height: 1.65;
+  transition: color 0.4s;
+}
+
+.job-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 10px;
+  width: 6px; height: 1px;
+  background: var(--accent2);
+  transition: background 0.4s;
+}
+
+/* ── EDUCATION ── */
+.edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.edu-card {
+  border: 1px solid var(--line);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  background: var(--card-bg);
+  transition: border-color 0.3s, background 0.4s;
+}
+
+.edu-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), transparent);
+  transition: background 0.4s;
+}
+
+.edu-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.school {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  transition: color 0.4s;
+}
+
+.school-sub {
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+  transition: color 0.4s;
+}
+
+.degree {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 8px;
+  transition: color 0.4s;
+}
+
+.coursework { font-size: 12px; color: var(--text3); line-height: 1.5; transition: color 0.4s; }
+
+/* ── SKILLS ── */
+.skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; }
+
+.skill-group-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 16px;
+  transition: color 0.4s;
+}
+
+.skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.tag {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 13px;
+  border: 1px solid var(--line);
+  color: var(--text2);
+  border-radius: 12px;
+  background: var(--ghost);
+  transition: all 0.2s;
+  cursor: default;
+  letter-spacing: 0.3px;
+}
+
+.tag:hover {
+  background: var(--tag-hover-bg);
+  border-color: var(--tag-hover-border);
+  color: var(--tag-hover-color);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--footer-bg);
+  padding: 80px 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  transition: background-image 0.4s;
+}
+
+footer > * { position: relative; z-index: 2; }
+
+footer h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+footer p { color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 40px; letter-spacing: 0.5px; }
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 8px 20px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  transition: all 0.2s;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.2);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 768px) {
+  header { height: auto; min-height: 60vh; padding: 80px 28px 36px; }
+  section { padding: 56px 28px; }
+  .job { grid-template-columns: 1fr; }
+  .job-meta { border-right: none; border-bottom: 1px solid var(--line); padding-right: 0; padding-bottom: 16px; margin-right: 0; margin-bottom: 18px; }
+  .edu-grid { grid-template-columns: 1fr; }
+  .skills-layout { grid-template-columns: 1fr; gap: 32px; }
+  .stats-bar { grid-template-columns: 1fr; height: auto; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--line); padding: 16px 28px; height: 56px; }
+  nav { padding: 12px 20px; }
+  .nav-links { display: none; }
+  footer { padding: 56px 28px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">AN ✦</div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button id="theme-btn" aria-label="Toggle light/dark mode" title="Toggle theme">☀</button>
+  </div>
+</nav>
+
+<header>
+  <div class="ring ring-1"></div>
+  <div class="ring ring-2"></div>
+  <div class="ring ring-3"></div>
+  <div class="hero-inner">
+    <h1><span>Albert Nguyen</span></h1>
+    <p class="hero-sub">Marketing <span>✦</span> Analytics <span>✦</span> Project Management</p>
+    <div class="hero-contact">
+      <a href="mailto:albertvinh@gmail.com">✉ albertvinh@gmail.com</a>
+      <a href="https://www.linkedin.com/in/albertvnguyen/" target="_blank">↗ LinkedIn</a>
+      <a href="#">◎ San Francisco, Bay Area CA</a>
+    </div>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">300+</div>
+    <div class="stat-desc">Qualified<br>Leads Generated</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">75%</div>
+    <div class="stat-desc">Reporting<br>Time Reduced</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">5+</div>
+    <div class="stat-desc">Years of<br>Experience</div>
+  </div>
+</div>
+
+<main>
+  <section id="experience">
+    <div class="sec-eyebrow">Work History</div>
+    <h2>Experience</h2>
+
+    <div class="job">
+      <div class="job-meta">
+        <div class="company">Astera Labs</div>
+        <div class="location">Santa Clara, CA</div>
+        <div class="date-badge">Jan 2025 – Present</div>
+      </div>
+      <div>
+        <div class="job-title">Events Marketing Specialist</div>
+        <ul class="job-bullets">
+          <li>Led OCP, the company's largest strategic event — full ownership of a 20×20 booth, 300+ qualified leads, and 20+ high-value meetings with press, analysts, and priority accounts.</li>
+          <li>Owned end-to-end execution for 5 industry trade shows as single point of contact across planning, logistics, vendors, on-site execution, and post-event follow-up.</li>
+          <li>Partnered with sales, product marketing, field engineering, and corporate marketing to align event strategy with pipeline goals and targeted account engagement.</li>
+          <li>Led Astera Connect, a sales-aligned ABM initiative delivering high-touch technical education sessions and live product demos for priority accounts.</li>
+          <li>Managed vendors, booth fabrication, freight, AV, registration workflows, and internal timelines ensuring consistent, high-quality execution across all events.</li>
+          <li>Implemented and refined lead capture, scoring, and routing processes — improving sales follow-up efficiency and post-event conversion.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-meta">
+        <div class="company">Lumenis BE Inc.</div>
+        <div class="location">San Jose, CA</div>
+        <div class="date-badge">Oct 2021 – Dec 2024</div>
+      </div>
+      <div>
+        <div class="job-title">Marketing Operations Specialist</div>
+        <ul class="job-bullets">
+          <li>Promoted three times within 15 months due to strong performance and measurable organizational impact.</li>
+          <li>Created automated processes to improve inquiry response time by 50% and overall efficiency by 40%.</li>
+          <li>Led a re-engineering project consolidating end-to-end service processes, restructuring communication across 3 departments and cutting reporting time by 75%.</li>
+          <li>Attended 12+ field marketing events annually; collaborated cross-functionally across sales, finance, customer service, and marketing teams.</li>
+          <li>Developed and maintained KPI dashboards providing real-time performance metrics and actionable recommendations — surpassing annual sales quota goals.</li>
+          <li>Drove redevelopment of the internal tracking system, reducing operational processing time by 20%.</li>
+          <li>Managed vendor relations, contract negotiations, and campaign expenditure tracking to maximize cost savings.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="sec-eyebrow">Academic Background</div>
+    <h2>Education</h2>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="school">Santa Clara University</div>
+        <div class="school-sub">Leavey School of Business · Santa Clara, CA</div>
+        <div class="degree">M.S. in Business Analytics</div>
+        <div class="coursework">Data Science & ML with Python · Dashboards · Database Management</div>
+      </div>
+      <div class="edu-card">
+        <div class="school">San Jose State University</div>
+        <div class="school-sub">Lucas College of Business · San Jose, CA</div>
+        <div class="degree">B.S. in Business Analytics — Cum Laude with Honors</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-eyebrow">Toolkit</div>
+    <h2>Skills</h2>
+    <div class="skills-layout">
+      <div>
+        <div class="skill-group-label">Analytics & Data</div>
+        <div class="skill-tags">
+          <span class="tag">SQL</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">Python</span>
+          <span class="tag">Excel</span>
+          <span class="tag">Pivot Tables</span>
+          <span class="tag">Machine Learning</span>
+          <span class="tag">Linear Regression</span>
+          <span class="tag">Data Science</span>
+          <span class="tag">Data Training & Testing</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">Tools & Platforms</div>
+        <div class="skill-tags">
+          <span class="tag">Adobe Creative Cloud</span>
+          <span class="tag">InDesign</span>
+          <span class="tag">Illustrator</span>
+          <span class="tag">Photoshop</span>
+          <span class="tag">Microsoft Office</span>
+          <span class="tag">AI Queries</span>
+          <span class="tag">Cloud Computing</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <h3>Let's Connect ✦</h3>
+  <p>Open to new opportunities in marketing, events & analytics.</p>
+  <div class="footer-links">
+    <a href="mailto:albertvinh@gmail.com">✉ albertvinh@gmail.com</a>
+    <a href="https://www.linkedin.com/in/albertvnguyen/" target="_blank">↗ LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  const sections = document.querySelectorAll('section');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.07 });
+  sections.forEach(s => io.observe(s));
+
+  // ── Theme toggle ──
+  const btn = document.getElementById('theme-btn');
+  const html = document.documentElement;
+
+  function setTheme(t) {
+    html.setAttribute('data-theme', t);
+    btn.textContent = t === 'dark' ? '☀' : '☽';
+    btn.title = t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    localStorage.setItem('theme', t);
+  }
+
+  // Restore saved preference
+  const saved = localStorage.getItem('theme') || 'dark';
+  setTheme(saved);
+
+  btn.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+</script>
+</body>
+</html>
